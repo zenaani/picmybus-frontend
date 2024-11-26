@@ -96,8 +96,8 @@ const HomePage = () => {
     const handleSearch = async () => {
 
         //Set Time Filter
-        let startTime = "";
-        let endTime = "";
+        let startTime = null;
+        let endTime = null;
         switch (time) {
             case "1":
                 startTime = "06:00:00";
@@ -111,43 +111,42 @@ const HomePage = () => {
                 startTime = "18:00:00";
                 endTime = "23:59:59";
                 break;
-            default:
+            case "4":
                 startTime = "00:00:00";
                 endTime = "23:59:59";
-                //url here
-                break;
-        }
-
-        //Set Bus Type
-        let subTypeId = 0;
-        switch (busType) {
-            case "Private":
-                subTypeId = 1;
-                break;
-            case "KSRTC":
-                subTypeId = 2;
                 break;
             default:
-                //url here
-                subTypeId = 0;
-                break;
+                startTime = null;
+                endTime = null;
         }
 
         setIsFetching(true);
-
-        //API Call For TripItems
         // try {
-        //     console.log(origin, destination);
-        //     if(origin === null || destination === null) {
+        //     if (origin === null || destination === null) {
         //         message.error('Enter Origin and Destination');
         //         return;
         //     }
         //
-        //     const response = await api.get(
-        //         `/schedules/filter?origin=${origin}&destination=${destination}&startTime=${startTime}&endTime=${endTime}&busSubTypeId=${busType}`
-        //     );
+        //     // Logic to determine which API to call based on the selected parameters
+        //     let response;
+        //
+        //     if (origin && destination && time && busType) {
+        //         // Origin, Destination, Time, and Bus Type are provided
+        //         response = await api.get(
+        //             `/schedules/filter?origin=${origin}&destination=${destination}&startTime=${startTime}&endTime=${endTime}&busTypeId=${busType}`
+        //         );
+        //     }
+        //     else if (origin && destination) {
+        //         // Only Origin and Destination are provided
+        //         response = await api.get(
+        //             `/schedules/${origin}/${destination}`
+        //         );
+        //     } else {
+        //         message.error('Please enter all required fields (Origin, Destination, etc.)');
+        //         return;
+        //     }
+        //
         //     setTripData(response.data);
-        //     console.log(response.data);
         //     setHasSearched(true);
         // } catch (error) {
         //     console.error("Error fetching trips:", error);
@@ -155,43 +154,21 @@ const HomePage = () => {
         //     setIsFetching(false);
         // }
 
+        let payload = {
+            originId: origin,
+            destinationId: destination,
+            startTime: startTime,
+            endTime: endTime,
+            busTypeId: busType,
+        }
+        console.log(payload);
+
         try {
-            if (origin === null || destination === null) {
-                message.error('Enter Origin and Destination');
-                return;
-            }
-
-            // Logic to determine which API to call based on the selected parameters
-            let response;
-
-            if (origin && destination && time && busType) {
-                // Origin, Destination, Time, and Bus Type are provided
-                response = await api.get(
-                    `/schedules/filter?origin=${origin}&destination=${destination}&startTime=${startTime}&endTime=${endTime}&busSubTypeId=${busType}`
-                );
-            }
-            // else if(origin && destination && busType) {
-            //     // Origin, Destination, and Bus Type are provided
-            //     response = await api.get(
-            //         `/schedules/byOriginDestinationBusType?origin=${origin}&destination=${destination}&busSubTypeId=${busType}`
-            //     );
-            // }
-            // else if (origin && destination && time) {
-            //     // Origin, Destination, and Time are provided
-            //     response = await api.get(
-            //         `/schedules/filter?origin=${origin}&destination=${destination}&startTime=${startTime}&endTime=${endTime}`
-            //     );
-            // }
-            else if (origin && destination) {
-                // Only Origin and Destination are provided
-                response = await api.get(
-                    `/schedules/${origin}/${destination}`
-                );
-            } else {
-                message.error('Please enter all required fields (Origin, Destination, etc.)');
-                return;
-            }
-
+            let response = await api.post('/schedules/search', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
             setTripData(response.data);
             setHasSearched(true);
         } catch (error) {
@@ -247,7 +224,7 @@ const HomePage = () => {
             </div>
 
             <Footer/>
-            <InstallNow />
+            <InstallNow/>
         </div>
     );
 };

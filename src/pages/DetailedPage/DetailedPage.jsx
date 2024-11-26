@@ -133,7 +133,7 @@ const DetailedPage = () => {
     // WebSocket connection
     useEffect(() => {
         if (loggingEnabled) {
-            socketRef.current = new WebSocket('ws://13.233.238.85:8080/ws');
+            socketRef.current = new WebSocket('ws://localhost:8080/ws');
             // socketRef.current = new WebSocket('ws://localhost:8080/ws');
 
             socketRef.current.onopen = () => {
