@@ -29,10 +29,14 @@ const DetailedPage = () => {
 
     const [data, setData] = useState();
 
+    //Midstops list
+    const [midStops, setMidStops] = useState([]);
+
     //API Call to fetch Trip Data and location from server
     useEffect(() => {
         api.get(`/schedules/${id}`).then((response) => {
             setData(response?.data);
+            setMidStops(response?.data.midStops);
 
             //Set Coordinates from DB
             setMapCoords({
@@ -42,6 +46,10 @@ const DetailedPage = () => {
 
         });
     }, []);
+
+    useEffect(() => {
+        console.log(midStops);
+    }, [midStops]);
 
     //Get Device Location and log it
     const [deviceLocation, setDeviceLocation] = useState(null);
@@ -183,6 +191,7 @@ const DetailedPage = () => {
         }
     }, [deviceLocation, loggingEnabled]);
 
+    if (!data) return <div>Loading...</div>;
 
     return (
         <div className="flex-col">
@@ -199,7 +208,7 @@ const DetailedPage = () => {
 
 
             <div className="flex flex-col h-[500px] md:hidden">
-                <Stepper />
+                <Stepper/>
             </div>
 
 
@@ -231,7 +240,41 @@ const DetailedPage = () => {
                 {/* Stepper and its white container */}
                 <div
                     className="absolute top-0 right-0 mx-36 my-10 w-96 h-[620px] bg-white bg-opacity-85 rounded-3xl z-10 shadow-lg backdrop-blur-sm hidden md:block">
-                    <Stepper/>
+                    <div className="relative flex mt-10">
+
+                        {/* Times */}
+                        <div className="ml-[90px] flex flex-col gap-[100px] text-right">
+                            <div>{data.departureTime}</div>
+                            {midStops.map((midStop, index) => (
+                                <div key={index}>{midStop.stopTime}</div>
+                            ))}
+                            <div>{data.arrivalTime}</div>
+                        </div>
+
+                        {/* Grey background line */}
+                        <div className="absolute left-48 top-0 h-full w-6 rounded-3xl bg-gray-300"></div>
+
+                        {/* Green progress line */}
+                        <div className="absolute left-48 top-0 h-3/4 w-6 rounded-3xl bg-green-600"></div>
+
+                        {/* Green dot */}
+                        <div className="absolute flex left-48 flex-col gap-[100px]">
+                            <div className="h-6 w-6 bg-green-800 rounded-3xl"></div>
+                            {midStops.map((midStop, index) => (
+                                <div key={index} className="h-6 w-6 bg-green-800 rounded-3xl"></div>
+                            ))}
+                            <div className="h-6 w-6 bg-green-800 rounded-3xl"></div>
+                        </div>
+
+                        {/* Place */}
+                        <div className="absolute flex left-60 flex-col gap-[100px]">
+                            <div>{data.origin.name}</div>
+                            {midStops.map((midStop, index) => (
+                                <div key={index}>{midStop.stopPlace.name}</div>
+                            ))}
+                            <div>{data.destination.name}</div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Currently we are setting the data from client. Need to get the data from server and set it */}
@@ -245,16 +288,22 @@ const DetailedPage = () => {
                     </div>
                     <div>Speed: {deviceLocation?.speed != null ? `${deviceLocation.speed} km/h` : 'N/A'}</div>
                     <div>Direction: {deviceLocation?.direction || 'N/A'}</div>
+
+
+                    {midStops.map((midStop, index) => (
+                        <div key={index}>{midStop.stopPlace.name}</div>
+                    ))}
                 </div>
 
             </div>
 
-            <Footer />
-            <InstallNow />
+            <Footer/>
+            <InstallNow/>
 
 
         </div>
-    );
+    )
+        ;
 };
 
 export default DetailedPage;

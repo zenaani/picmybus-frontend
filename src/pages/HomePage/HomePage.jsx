@@ -121,38 +121,6 @@ const HomePage = () => {
         }
 
         setIsFetching(true);
-        // try {
-        //     if (origin === null || destination === null) {
-        //         message.error('Enter Origin and Destination');
-        //         return;
-        //     }
-        //
-        //     // Logic to determine which API to call based on the selected parameters
-        //     let response;
-        //
-        //     if (origin && destination && time && busType) {
-        //         // Origin, Destination, Time, and Bus Type are provided
-        //         response = await api.get(
-        //             `/schedules/filter?origin=${origin}&destination=${destination}&startTime=${startTime}&endTime=${endTime}&busTypeId=${busType}`
-        //         );
-        //     }
-        //     else if (origin && destination) {
-        //         // Only Origin and Destination are provided
-        //         response = await api.get(
-        //             `/schedules/${origin}/${destination}`
-        //         );
-        //     } else {
-        //         message.error('Please enter all required fields (Origin, Destination, etc.)');
-        //         return;
-        //     }
-        //
-        //     setTripData(response.data);
-        //     setHasSearched(true);
-        // } catch (error) {
-        //     console.error("Error fetching trips:", error);
-        // } finally {
-        //     setIsFetching(false);
-        // }
 
         let payload = {
             originId: origin,
@@ -164,15 +132,22 @@ const HomePage = () => {
         console.log(payload);
 
         try {
-            let response = await api.post('/schedules/search', payload, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            setTripData(response.data);
-            setHasSearched(true);
+            if(origin != null && destination != null) {
+
+                let response = await api.post('/schedules/search', payload, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                setTripData(response.data);
+                setHasSearched(true);
+
+            } else {
+                message.error('Enter Origin and Destination');
+            }
         } catch (error) {
             console.error("Error fetching trips:", error);
+            message.error('Error fetching trips');
         } finally {
             setIsFetching(false);
         }
@@ -200,7 +175,7 @@ const HomePage = () => {
             <div className="flex-grow py-8 px-10 md:px-20">
                 {!hasSearched && (
                     <div className="text-center py-8 text-xl text-gray-700">
-                        <div className="text-2xl font-bold text-black">My Favourite Routes</div>
+                        <div className="text-2xl font-bold text-black">Top Searched Routes</div>
                         <FavouriteRoute key={favouriteRoute.tripId} item={favouriteRoute}
                                         onFavouriteRouteClick={fillSearchFieldsFromFavourite}/>
                     </div>
