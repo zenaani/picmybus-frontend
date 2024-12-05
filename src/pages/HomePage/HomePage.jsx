@@ -4,7 +4,7 @@ import BannerGreenTop from "./Components/BannerTopGreen.jsx";
 import InputSearchPlace from "./Components/InputSearchPlace.jsx";
 import InputSearchGeneric from "./Components/InputSearchGeneric.jsx";
 import {timeFrameList} from "../../utils/timeFrameList.js";
-import {DatePicker, message, Spin} from "antd";
+import {DatePicker, message, Pagination, Spin} from "antd";
 import {busTypeList} from "../../utils/busTypeList.js";
 import icSwap from "../../assets/ic_swap.svg";
 import icTime from "../../assets/ic_time.svg";
@@ -57,6 +57,17 @@ const HomePage = () => {
 
     //To track number of results
     const [hasSearched, setHasSearched] = useState(false);
+
+    //Pagination Variables
+    const [page, setPage] = useState(0);
+    const [size, setSize] = useState(10);
+
+    //To Handle Page Change
+    const handlePageChange = (newPage) => {
+        setPage(newPage - 1);
+        handleSearch(newPage - 1);
+    }
+
 
     //Need to refactor
     //Favourite Routes
@@ -132,9 +143,9 @@ const HomePage = () => {
         console.log(payload);
 
         try {
-            if(origin != null && destination != null) {
+            if (origin != null && destination != null) {
 
-                let response = await api.post('/schedules/search', payload, {
+                let response = await api.post(`/schedules/search?page=${page}&size=${size}`, payload, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -197,6 +208,14 @@ const HomePage = () => {
                     </>
                 )}
             </div>
+
+            {/* Pagination  */}
+            {tripData.totalResults > 0 && (
+                <div className="flex w-full justify-center items-center">
+                    <Pagination defaultCurrent={1} current={page + 1} total={tripData.totalResults} pageSize={size} onChange={handlePageChange}/>
+                </div>
+            )}
+
 
             <Footer/>
             <InstallNow/>
