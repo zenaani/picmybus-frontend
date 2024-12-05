@@ -206,9 +206,46 @@ const DetailedPage = () => {
                 <Switch checked={loggingEnabled} onChange={handleSwitchChange}></Switch>
             </div>
 
+            <div className="flex flex-col h-full md:hidden">
+                <div className="relative flex mt-10 mb-10">
 
-            <div className="flex flex-col h-[500px] md:hidden">
-                <Stepper/>
+                    {/* Times */}
+                    <div className="ml-[90px] flex flex-col gap-[100px] text-right">
+                        <div>{data.departureTime}</div>
+                        {midStops.map((midStop, index) => (
+                            <div key={index}>{midStop.stopTime}</div>
+                        ))}
+                        <div>{data.arrivalTime}</div>
+                    </div>
+
+                    {/* Grey background line */}
+                    <div className="absolute left-48 top-0 h-full w-6 rounded-3xl bg-gray-300"></div>
+
+                    {/* Green progress line */}
+                    <div className="absolute left-48 top-0 h-3/4 w-6 rounded-3xl bg-green-600"></div>
+
+                    {/* Green dot */}
+                    <div className="absolute flex left-48 flex-col gap-[100px]">
+                        <div className="h-6 w-6 bg-green-800 rounded-3xl"></div>
+                        {midStops.map((midStop, index) => (
+                            <div key={index} className="h-6 w-6 bg-green-800 rounded-3xl"></div>
+                        ))}
+                        <div className="h-6 w-6 bg-green-800 rounded-3xl"></div>
+                    </div>
+
+                    {/* Place */}
+                    <div className="absolute flex left-60 flex-col gap-[100px]">
+                        <div>{data.origin.name}</div>
+                        {midStops.map((midStop, index) => (
+                            <div key={index}>{midStop.stopPlace.name}</div>
+                        ))}
+                        <div>{data.destination.name}</div>
+                    </div>
+
+
+
+                </div>
+
             </div>
 
 
@@ -239,8 +276,8 @@ const DetailedPage = () => {
 
                 {/* Stepper and its white container */}
                 <div
-                    className="absolute top-0 right-0 mx-36 my-10 w-96 h-[620px] bg-white bg-opacity-85 rounded-3xl z-10 shadow-lg backdrop-blur-sm hidden md:block">
-                    <div className="relative flex mt-10">
+                    className="absolute top-0 right-0 mx-36 my-10 w-96 h-[620px] bg-white bg-opacity-85 rounded-3xl z-10 shadow-lg backdrop-blur-sm hidden md:block overflow-y-auto">
+                    <div className="relative flex mt-10 mb-10">
 
                         {/* Times */}
                         <div className="ml-[90px] flex flex-col gap-[100px] text-right">
