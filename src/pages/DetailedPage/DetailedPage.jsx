@@ -42,8 +42,18 @@ const DetailedPage = () => {
             //Set Coordinates from DB
             setMapCoords({
                 lat: response?.data.latitude || 19.0760,
-                lng: response?.data.longitude || 72.8777,
+                lng: response?.data.longitude || 72.8777
             });
+
+            setOriginMapCoords({
+                lat: response?.data.origin.latitude || 19.0760,
+                lng: response?.data.origin.longitude || 72.8777
+            })
+
+            setDestinationMapCoords({
+                lat: response?.data.destination.latitude || 19.0760,
+                lng: response?.data.destination.longitude || 72.8777
+            })
 
         });
     }, []);
@@ -64,6 +74,16 @@ const DetailedPage = () => {
         lat: data?.latitude || 19.0760,
         lng: data?.longitude || 72.8777
     });
+
+    const [originMapCoords, setOriginMapCoords] = useState({
+        lat: data?.origin.latitude || 19.0760,
+        lng: data?.destination.longitude || 72.8777
+    })
+
+    const [destinationMapCoords, setDestinationMapCoords] = useState({
+        lat: data?.origin.latitude || 19.0760,
+        lng: data?.destination.longitude || 72.8777
+    })
 
     useEffect(() => {
         if (data) {
@@ -195,19 +215,71 @@ const DetailedPage = () => {
 
     //Geocoding API call to get source, destination, midstops marker
     useEffect(() => {
-        api.get("https://maps.googleapis.com/maps/api/geocode/json?address=alathur&key=AIzaSyAobUq5fPrJ7ephKJQkojWouX-vlYqd_B8")
-            .then((response) => {
-                if (response.data.results.length > 0) {
-                    const location = response.data.results[0].geometry.location;
-                    console.log("Location:", location);
-                } else {
-                    console.log("No results found for the specified address.");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching geocode data:", error);
-            });
-    }, [])
+        if (data) {
+            api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${data.origin.name}&key=${googleMapsApiKey}`)
+                .then((response) => {
+                    if (response.data.results.length > 0) {
+                        const location = response.data.results[0].geometry.location;
+
+                        //Update Place Coordinates in DB
+                        //Only update if coordinates are not available in DB
+                        if (data?.origin?.placeId && data?.origin?.latitude == null && data?.origin?.longitude == null) {
+                            api.put(`/places/${data.origin.placeId}`, {latitude: location.lat, longitude: location.lng})
+                                .then(() => {
+                                    console.log("Origin Coordinates updated successfully.");
+                                })
+                                .catch((error) => {
+                                    console.error("Error updating place:", error);
+                                });
+                        } else {
+                            console.log("Origin Coordinates already available in DB");
+                        }
+                        console.log("Location:", location);
+                    } else {
+                        console.log("No results found for the specified address.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching geocode data:", error);
+                });
+        }
+    }, [data])
+
+    //Geocoding API call to get source, destination, midstops marker
+    useEffect(() => {
+        if (data) {
+            api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${data.destination.name}&key=${googleMapsApiKey}`)
+                .then((response) => {
+                    if (response.data.results.length > 0) {
+                        const location = response.data.results[0].geometry.location;
+
+                        //Update Place Coordinates in DB
+                        //Only update if coordinates are not available in DB
+                        if (data?.destination?.placeId && data?.destination?.latitude == null && data?.destination?.longitude == null) {
+                            api.put(`/places/${data.destination.placeId}`, {
+                                latitude: location.lat,
+                                longitude: location.lng
+                            })
+                                .then(() => {
+                                    console.log("Destination Coordinates updated successfully.");
+                                })
+                                .catch((error) => {
+                                    console.error("Error updating place:", error);
+                                });
+                        } else {
+                            console.log("Destination Coordinates already available in DB");
+                        }
+                        console.log("Location:", location);
+                    } else {
+                        console.log("No results found for the specified address.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching geocode data:", error);
+                });
+        }
+
+    }, [data])
 
     if (!data) return <div>Loading...</div>;
 
@@ -261,7 +333,6 @@ const DetailedPage = () => {
                     </div>
 
 
-
                 </div>
 
             </div>
@@ -289,6 +360,8 @@ const DetailedPage = () => {
                 >
                     <Map defaultZoom={13} center={mapCoords} className="w-full h-full rounded-3xl overflow-auto">
                         <Marker position={mapCoords}/>
+                        <Marker position={originMapCoords}/>
+                        <Marker position={destinationMapCoords}/>
                     </Map>
                 </APIProvider>
 
