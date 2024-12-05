@@ -192,6 +192,23 @@ const DetailedPage = () => {
         }
     }, [deviceLocation, loggingEnabled]);
 
+
+    //Geocoding API call to get source, destination, midstops marker
+    useEffect(() => {
+        api.get("https://maps.googleapis.com/maps/api/geocode/json?address=alathur&key=AIzaSyAobUq5fPrJ7ephKJQkojWouX-vlYqd_B8")
+            .then((response) => {
+                if (response.data.results.length > 0) {
+                    const location = response.data.results[0].geometry.location;
+                    console.log("Location:", location);
+                } else {
+                    console.log("No results found for the specified address.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching geocode data:", error);
+            });
+    }, [])
+
     if (!data) return <div>Loading...</div>;
 
     return (
