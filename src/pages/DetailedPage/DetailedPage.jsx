@@ -9,7 +9,7 @@ import {Steps, Switch} from "antd";
 import api from "../../services/api.js";
 import Footer from "../HomePage/Components/Footer.jsx";
 import InstallNow from "../HomePage/Components/InstallNow.jsx";
-import {formatTime} from "../../utils/utilFunctions.js";
+import {formatTime, haversineDistance} from "../../utils/utilFunctions.js";
 
 const DetailedPage = () => {
 
@@ -84,6 +84,36 @@ const DetailedPage = () => {
         lat: data?.origin.latitude || 19.0760,
         lng: data?.destination.longitude || 72.8777
     })
+
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        if (data) {
+            const totalDistance = haversineDistance(
+                originMapCoords.lat,
+                originMapCoords.lng,
+                destinationMapCoords.lat,
+                destinationMapCoords.lng
+            )
+
+            const currentDistance = haversineDistance(
+                originMapCoords.lat,
+                originMapCoords.lng,
+                mapCoords.lat,
+                mapCoords.lng
+            );
+
+            if(currentDistance > totalDistance) {
+                setProgress(100);
+            } else {
+                const percentageProgress = (currentDistance / totalDistance) * 100;
+                setProgress(percentageProgress);
+            }
+
+
+        }
+    }, [data]);
+
 
     useEffect(() => {
         if (data) {
@@ -236,7 +266,7 @@ const DetailedPage = () => {
                         }
                         console.log("Location:", location);
                     } else {
-                        console.log("No results found for the specified address.");
+                        console.log("No results found for Origin Address.");
                     }
                 })
                 .catch((error) => {
@@ -271,7 +301,7 @@ const DetailedPage = () => {
                         }
                         console.log("Location:", location);
                     } else {
-                        console.log("No results found for the specified address.");
+                        console.log("No results found for Destination Address.");
                     }
                 })
                 .catch((error) => {
@@ -312,7 +342,10 @@ const DetailedPage = () => {
                     <div className="absolute left-48 top-0 h-full w-6 rounded-3xl bg-gray-300"></div>
 
                     {/* Green progress line */}
-                    <div className="absolute left-48 top-0 h-3/4 w-6 rounded-3xl bg-green-600"></div>
+                    <div
+                        className="absolute left-48 top-0 h-3/4 w-6 rounded-3xl bg-green-600"
+                        style={{height: `${progress}%`}}
+                    ></div>
 
                     {/* Green dot */}
                     <div className="absolute flex left-48 flex-col gap-[100px]">
@@ -383,7 +416,10 @@ const DetailedPage = () => {
                         <div className="absolute left-48 top-0 h-full w-6 rounded-3xl bg-gray-300"></div>
 
                         {/* Green progress line */}
-                        <div className="absolute left-48 top-0 h-3/4 w-6 rounded-3xl bg-green-600"></div>
+                        <div
+                            className="absolute left-48 top-0 h-3/4 w-6 rounded-3xl bg-green-600"
+                            style={{height: `${progress}%`}}
+                        ></div>
 
                         {/* Green dot */}
                         <div className="absolute flex left-48 flex-col gap-[100px]">
