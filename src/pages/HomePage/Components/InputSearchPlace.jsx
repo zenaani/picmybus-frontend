@@ -52,6 +52,7 @@ const InputSearchPlace = ({ props, placeholder, onPlaceSelect}) => {
             onSearch={handleSearch}
             onChange={handleChange}
             options={data}
+            notFoundContent=""
         />
     );
 };
