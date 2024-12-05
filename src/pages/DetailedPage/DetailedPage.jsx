@@ -9,6 +9,7 @@ import {Steps, Switch} from "antd";
 import api from "../../services/api.js";
 import Footer from "../HomePage/Components/Footer.jsx";
 import InstallNow from "../HomePage/Components/InstallNow.jsx";
+import {formatTime} from "../../utils/utilFunctions.js";
 
 const DetailedPage = () => {
 
@@ -211,11 +212,11 @@ const DetailedPage = () => {
 
                     {/* Times */}
                     <div className="ml-[90px] flex flex-col gap-[100px] text-right">
-                        <div>{data.departureTime}</div>
+                        <div>{formatTime(data.departureTime)}</div>
                         {midStops.map((midStop, index) => (
-                            <div key={index}>{midStop.stopTime}</div>
+                            <div key={index}>{formatTime(midStop.stopTime)}</div>
                         ))}
-                        <div>{data.arrivalTime}</div>
+                        <div>{formatTime(data.arrivalTime)}</div>
                     </div>
 
                     {/* Grey background line */}
@@ -281,11 +282,11 @@ const DetailedPage = () => {
 
                         {/* Times */}
                         <div className="ml-[90px] flex flex-col gap-[100px] text-right">
-                            <div>{data.departureTime}</div>
+                            <div>{formatTime(data.departureTime)}</div>
                             {midStops.map((midStop, index) => (
-                                <div key={index}>{midStop.stopTime}</div>
+                                <div key={index}>{formatTime(midStop.stopTime)}</div>
                             ))}
-                            <div>{data.arrivalTime}</div>
+                            <div>{formatTime(data.arrivalTime)}</div>
                         </div>
 
                         {/* Grey background line */}
