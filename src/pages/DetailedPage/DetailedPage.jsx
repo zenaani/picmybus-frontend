@@ -10,6 +10,8 @@ import api from "../../services/api.js";
 import Footer from "../HomePage/Components/Footer.jsx";
 import InstallNow from "../HomePage/Components/InstallNow.jsx";
 import {formatTime, haversineDistance} from "../../utils/utilFunctions.js";
+import imgBus from "../../assets/img_banner_bus.png"
+import * as url from "node:url";
 
 const DetailedPage = () => {
 
@@ -103,7 +105,7 @@ const DetailedPage = () => {
                 mapCoords.lng
             );
 
-            if(currentDistance > totalDistance) {
+            if (currentDistance > totalDistance) {
                 setProgress(100);
             } else {
                 const percentageProgress = (currentDistance / totalDistance) * 100;
@@ -391,10 +393,32 @@ const DetailedPage = () => {
                     apiKey={googleMapsApiKey}
                     onLoad={() => console.log("Maps API has loaded.")}
                 >
-                    <Map defaultZoom={13} center={mapCoords} className="w-full h-full rounded-3xl overflow-auto">
-                        <Marker position={mapCoords}/>
-                        <Marker position={originMapCoords}/>
-                        <Marker position={destinationMapCoords}/>
+                    <Map defaultZoom={13} defaultCenter={mapCoords} className="w-full h-full rounded-3xl overflow-auto">
+                        <Marker
+                            position={mapCoords}
+                            icon={{
+                                url: imgBus,
+                                scaledSize: { width: 80, height: 50 }
+                            }}
+                        />
+                        <Marker
+                            position={originMapCoords}
+                            label={{
+                                text: "Origin", // Label text
+                                color: "black", // Label color
+                                fontSize: "12px", // Label font size
+                                fontWeight: "bold", // Label font weight
+                            }}
+                        />
+                        <Marker
+                            position={destinationMapCoords}
+                            label={{
+                                text: "Destination", // Label text
+                                color: "black", // Label color
+                                fontSize: "12px", // Label font size
+                                fontWeight: "bold", // Label font weight
+                            }}
+                        />
                     </Map>
                 </APIProvider>
 

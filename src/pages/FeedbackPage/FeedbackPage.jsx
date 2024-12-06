@@ -46,21 +46,21 @@ const FeedbackPage = () => {
             <div className="flex h-full bg-green-600">
 
                 {/* Left half with Bus Image */}
-                <div className="h-full w-1/2 bg-green-600">
+                <div className="h-full w-1/2 bg-green-600 md:block hidden">
                     {/* Bus Image comes here */}
                 </div>
 
 
                 {/* Right half with Logo and Content */}
-                <div className="flex flex-col h-full w-1/2 bg-green-600 items-center">
+                <div className="flex flex-col h-full w-full md:w-1/2 bg-green-600 items-center">
 
                     <PicMyBusMalayalam/>
 
                     <div
                         className="flex-col h-full w-4/5 bg-white rounded-tl-3xl rounded-tr-3xl mt-10 p-14 flex items-center gap-8">
-                        <div className="font-bold text-2xl">How was your experience?</div>
-                        <Rate defaultValue={3} rootClassName="text-3xl" onChange={handleRatingChange}/>
-                        <TextArea placeholder="Enter your feedback here" className="text-lg" style={{ height: '150px' }} onChange={handleFeedbackChange}/>
+                        <div className="font-bold md:text-2xl text-xl text-center">How was your experience?</div>
+                        <Rate defaultValue={3} rootClassName="md:text-3xl text-2xl" onChange={handleRatingChange}/>
+                        <TextArea placeholder="Enter your feedback here" className="md:text-lg text-base" style={{ height: '150px' }} onChange={handleFeedbackChange}/>
 
                         <button
                             className="h-10 bg-green-800 hover:bg-green-900 text-white py-2 px-5 transition duration-500 rounded-lg w-full"

@@ -8,7 +8,7 @@ const ButtonGoogleLogin = ({ onClick }) => {
             onClick={onClick}
         >
             <img src={icGoogle} className="w-4 h-4 mr-3"/>
-            <div>Continue with Google</div>
+            <div className="md:text-base text-sm">Continue with Google</div>
         </button>
     );
 };

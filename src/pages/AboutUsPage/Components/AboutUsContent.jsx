@@ -4,7 +4,7 @@ import React from 'react';
 const AboutUsContent = () => {
     return (
         <div className="h-full w-4/5 bg-white rounded-tl-3xl rounded-tr-3xl mt-10 p-14">
-            <p>
+            <p className="text-justify">
                 <strong className="text-green-600">PicMyBus / Dhe…Bus</strong> is a Digital Bus Information
                 System powered by PicSmart Solutions.
                 Dhe...Bus
@@ -17,7 +17,7 @@ const AboutUsContent = () => {
             </p>
             <br></br>
             <strong>Why Dhe...Bus?</strong>
-            <p>
+            <p className="text-justify">
                 Dhe...Bus / PicMyBus is entering the transportation industry with an aim to organize,
                 automate
                 and enhance the commuters bus journey in Kerala. With the increasing adoption of digital
