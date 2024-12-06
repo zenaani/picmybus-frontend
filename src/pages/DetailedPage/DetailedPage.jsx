@@ -10,7 +10,7 @@ import api from "../../services/api.js";
 import Footer from "../HomePage/Components/Footer.jsx";
 import InstallNow from "../HomePage/Components/InstallNow.jsx";
 import {formatTime, haversineDistance} from "../../utils/utilFunctions.js";
-import imgBus from "../../assets/img_banner_bus.png"
+import imgBus from "../../assets/img_banner_bus_w_shadow.png"
 import * as url from "node:url";
 
 const DetailedPage = () => {

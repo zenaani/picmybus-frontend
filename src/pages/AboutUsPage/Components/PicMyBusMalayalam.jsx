@@ -9,7 +9,7 @@ const PicMyBusMalayalam = () => {
                 src={malayalam}
                 className="md:w-72 w-40"
             />
-            <div className="flex relative text-white md:text-7xl text-5xl font-bold translate-y-4">
+            <div className="flex relative text-white md:text-7xl text-5xl font-bold translate-y-4 opacity-30">
                 PicMyBus
             </div>
         </div>)

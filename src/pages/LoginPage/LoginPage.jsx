@@ -6,11 +6,11 @@ import DividerOr from "./Components/DividerOr.jsx";
 import ButtonGoogleLogin from "./Components/ButtonGoogleLogin.jsx";
 import TextTnC from "./Components/TextTnC.jsx";
 import TextSendOtp from "./Components/TextSendOtp.jsx";
-import { signInWithGooglePopup } from "../../services/firebase.js";
-import { useNavigate } from "react-router-dom";
+import {signInWithGooglePopup} from "../../services/firebase.js";
+import {useNavigate} from "react-router-dom";
 import InstallNow from "../HomePage/Components/InstallNow.jsx";
 import ButtonContinueAsGuest from "./Components/ButtonContinueAsGuest.jsx";
-
+import imgBus from "../../assets/img_bus.png";
 
 function LoginPage() {
 
@@ -39,7 +39,7 @@ function LoginPage() {
 
             {/* Left half with green background */}
             <div className="w-1/2 bg-green-600 md:block hidden">
-                {/* Bus Image comes here */}
+                <img src={imgBus} className="h-full absolute"/>
             </div>
 
 
@@ -53,11 +53,11 @@ function LoginPage() {
                     {/*<ButtonSendOtp/>*/}
                     {/*<TextSendOtp />*/}
                     {/*<DividerOr/>*/}
-                    <ButtonGoogleLogin onClick={logGoogleUser} />
-                    <DividerOr />
-                    <ButtonContinueAsGuest onClick={handleContinueAsGuest} />
+                    <ButtonGoogleLogin onClick={logGoogleUser}/>
+                    <DividerOr/>
+                    <ButtonContinueAsGuest onClick={handleContinueAsGuest}/>
 
-                    <TextTnC />
+                    <TextTnC/>
                 </div>
 
             </div>

@@ -3,6 +3,7 @@ import BannerTopLogo from "../HomePage/Components/BannerTopLogo.jsx";
 import malayalam from "../../assets/malayalam.png";
 import PicMyBusMalayalam from "./Components/PicMyBusMalayalam.jsx";
 import AboutUsContent from "./Components/AboutUsContent.jsx";
+import imgBus from "../../assets/img_bus.png";
 
 const AboutUsPage = () => {
     return (
@@ -13,7 +14,7 @@ const AboutUsPage = () => {
 
                 {/* Left half with Bus Image */}
                 <div className="h-full w-1/2 bg-green-600 md:block hidden">
-                    {/* Bus Image comes here */}
+                    <img src={imgBus} className="h-full absolute translate-x-[-70px]"/>
                 </div>
 
                 {/* Right half with Logo and Content */}

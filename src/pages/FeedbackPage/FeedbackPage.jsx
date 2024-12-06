@@ -5,6 +5,8 @@ import PicMyBusMalayalam from "../AboutUsPage/Components/PicMyBusMalayalam.jsx";
 import {Button, Input, message, Rate} from "antd";
 import TextArea from "antd/es/input/TextArea.js";
 import Footer from "../HomePage/Components/Footer.jsx";
+import imgBus from "../../assets/img_bus.png";
+import api from "../../services/api.js";
 
 const FeedbackPage = () => {
 
@@ -23,7 +25,7 @@ const FeedbackPage = () => {
 
 
     // Handle feedback submission
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!feedback.trim()) {
             // If feedback is empty, show an error message
             message.error('Please enter your feedback.');
@@ -31,12 +33,30 @@ const FeedbackPage = () => {
         }
 
         // Send data to backend
-        console.log('Feedback Submitted:', { rating, feedback });
+        try {
+            const payload = {
+                rating: rating,
+                message: feedback
+            };
+
+            // Send data to backend
+            const response = await api.post('/feedback', payload);
+
+            // Check if the response was successful
+            if (response.status === 200) {
+                console.log('Feedback Submitted:', payload);
+                message.success('Thank you for your feedback!');
+            } else {
+                message.error('Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            message.error('An error occurred. Please try again.');
+        }
 
         // Reset form after submit
         setRating(3);  // Reset to default rating
         setFeedback("");  // Clear feedback text
-        message.success('Thank you for your feedback!');
     };
 
     return (
@@ -47,7 +67,7 @@ const FeedbackPage = () => {
 
                 {/* Left half with Bus Image */}
                 <div className="h-full w-1/2 bg-green-600 md:block hidden">
-                    {/* Bus Image comes here */}
+                    <img src={imgBus} className="h-full absolute translate-x-[-70px]"/>
                 </div>
 
 
