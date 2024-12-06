@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useLocation, useParams} from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import BannerTopLogo from "../HomePage/Components/BannerTopLogo.jsx";
 import BannerGreenTop from "../HomePage/Components/BannerTopGreen.jsx";
 import TripItem from "../HomePage/Components/TripItem.jsx";
 import {APIProvider, Marker, Map} from "@vis.gl/react-google-maps";
 import Stepper from "./Components/Stepper.jsx";
-import {Steps, Switch} from "antd";
+import {Button, Modal, Steps, Switch} from "antd";
 import api from "../../services/api.js";
 import Footer from "../HomePage/Components/Footer.jsx";
 import InstallNow from "../HomePage/Components/InstallNow.jsx";
@@ -15,6 +15,8 @@ import * as url from "node:url";
 
 const DetailedPage = () => {
 
+    //navigation
+    const navigate = useNavigate();
 
     //Are we sharing location to the server?
     const [loggingEnabled, setLoggingEnabled] = useState(false);
@@ -313,10 +315,41 @@ const DetailedPage = () => {
 
     }, [data])
 
+    //Feedback Popup
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+    const handleRateUsClick = () => {
+        navigate("/feedback");
+    };
+
+    useEffect(() => {
+        // Show popup after 60 seconds
+        const timer = setTimeout(() => {
+            setIsPopupVisible(true);
+        }, 60000);  // 10000 ms = 10 seconds
+
+        // Cleanup the timer when the component unmounts or when the effect is re-run
+        return () => clearTimeout(timer);
+    }, []);
+
+
     if (!data) return <div>Loading...</div>;
 
     return (
         <div className="flex-col">
+
+            <Modal
+                title="Feedback"
+                open={isPopupVisible}
+                onCancel={() => setIsPopupVisible(false)}
+                footer={[
+                    <Button key="submit" type="primary" onClick={handleRateUsClick}>
+                        Rate Us
+                    </Button>
+                ]}
+            >
+                <p>Kindly share your feedback</p>
+            </Modal>
             <BannerTopLogo/>
             <BannerGreenTop/>
             <div className="mx-10 -mt-10">
