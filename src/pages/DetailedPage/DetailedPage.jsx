@@ -196,7 +196,8 @@ const DetailedPage = () => {
     // WebSocket connection
     useEffect(() => {
         if (loggingEnabled) {
-            socketRef.current = new WebSocket('ws://localhost:8080/ws');
+            socketRef.current = new WebSocket('wss://picmybus.com/ws');
+            // socketRef.current = new WebSocket('ws://localhost:8080/ws');
             // socketRef.current = new WebSocket('ws://localhost:8080/ws');
 
             socketRef.current.onopen = () => {

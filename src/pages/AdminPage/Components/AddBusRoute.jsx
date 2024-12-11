@@ -7,6 +7,7 @@ import InputSearchGeneric from "../../HomePage/Components/InputSearchGeneric.jsx
 import {busTypeList} from "../../../utils/busTypeList.js";
 import {busSubTypeList} from "../../../utils/busSubTypeList.js";
 import axios from "axios";
+import api from "../../../services/api.js";
 
 
 const AddBusRoute = () => {
@@ -65,8 +66,8 @@ const AddBusRoute = () => {
 
         console.log("Payload being sent:", data);
         try {
-          const response = await axios.post(
-            "http://localhost:8080/v1/schedules",
+          let response = await api.post(
+            "/schedules",
             data
           );
           console.log(response.data);
