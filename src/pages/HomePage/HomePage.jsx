@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BannerTopLogo from "./Components/BannerTopLogo.jsx";
 import BannerGreenTop from "./Components/BannerTopGreen.jsx";
 import InputSearchPlace from "./Components/InputSearchPlace.jsx";
@@ -23,6 +23,23 @@ const HomePage = () => {
     //Handle Origin and Destination Selection
     const [origin, setOrigin] = useState(null);
     const [destination, setDestination] = useState(null);
+
+    //Session storage
+    useEffect(() => {
+        const savedState = sessionStorage.getItem('searchState');
+        if (savedState) {
+            const parsedState = JSON.parse(savedState);
+            setOrigin(parsedState.origin);
+            setDestination(parsedState.destination);
+            setTime(parsedState.time);
+            setBusType(parsedState.busType);
+            setTripData(parsedState.tripData);
+            setPage(parsedState.page);
+            setSize(parsedState.size);
+            setHasSearched(parsedState.hasSearched);
+        }
+    }, []);
+
 
     const handleOriginSelect = (placeId) => {
         setOrigin(placeId);
@@ -156,6 +173,18 @@ const HomePage = () => {
                 })
                 setTripData(response.data);
                 setHasSearched(true);
+
+                // Save search state to localStorage
+                sessionStorage.setItem('searchState', JSON.stringify({
+                    origin,
+                    destination,
+                    time,
+                    busType,
+                    tripData: response.data,
+                    page,
+                    size,
+                    hasSearched: true,
+                }));
 
             } else {
                 message.error('Enter Origin and Destination');
