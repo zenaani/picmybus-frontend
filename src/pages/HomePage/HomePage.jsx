@@ -110,6 +110,10 @@ const HomePage = () => {
         let startTime = null;
         let endTime = null;
         switch (time) {
+            case "0":
+                startTime = "00:00:00";
+                endTime = "06:00:00";
+                break;
             case "1":
                 startTime = "06:00:00";
                 endTime = "13:00:00";

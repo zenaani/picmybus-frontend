@@ -80,13 +80,13 @@ const DetailedPage = () => {
     });
 
     const [originMapCoords, setOriginMapCoords] = useState({
-        lat: data?.origin.latitude || 19.0760,
-        lng: data?.destination.longitude || 72.8777
+        lat: data?.origin?.latitude || 19.0760,
+        lng: data?.destination?.longitude || 72.8777
     })
 
     const [destinationMapCoords, setDestinationMapCoords] = useState({
-        lat: data?.origin.latitude || 19.0760,
-        lng: data?.destination.longitude || 72.8777
+        lat: data?.origin?.latitude || 19.0760,
+        lng: data?.destination?.longitude || 72.8777
     })
 
     const [progress, setProgress] = useState(0);
@@ -251,7 +251,7 @@ const DetailedPage = () => {
     //Geocoding API call to get source, destination, midstops marker
     useEffect(() => {
         if (data) {
-            api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${data.origin.name}&key=${googleMapsApiKey}`)
+            api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${data?.origin?.name}&key=${googleMapsApiKey}`)
                 .then((response) => {
                     if (response.data.results.length > 0) {
                         const location = response.data.results[0].geometry.location;
@@ -283,7 +283,7 @@ const DetailedPage = () => {
     //Geocoding API call to get source, destination, midstops marker
     useEffect(() => {
         if (data) {
-            api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${data.destination.name}&key=${googleMapsApiKey}`)
+            api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${data?.destination?.name}&key=${googleMapsApiKey}`)
                 .then((response) => {
                     if (response.data.results.length > 0) {
                         const location = response.data.results[0].geometry.location;
@@ -394,11 +394,11 @@ const DetailedPage = () => {
 
                     {/* Place */}
                     <div className="absolute flex left-60 flex-col gap-[100px]">
-                        <div>{data.origin.name}</div>
+                        <div>{data?.origin?.name}</div>
                         {midStops.map((midStop, index) => (
-                            <div key={index}>{midStop.stopPlace.name}</div>
+                            <div key={index}>{midStop?.stopPlace?.name}</div>
                         ))}
-                        <div>{data.destination.name}</div>
+                        <div>{data?.destination?.name}</div>
                     </div>
 
 
@@ -490,11 +490,11 @@ const DetailedPage = () => {
 
                         {/* Place */}
                         <div className="absolute flex left-60 flex-col gap-[100px]">
-                            <div>{data.origin.name}</div>
+                            <div>{data?.origin?.name}</div>
                             {midStops.map((midStop, index) => (
-                                <div key={index}>{midStop.stopPlace.name}</div>
+                                <div key={index}>{midStop?.stopPlace?.name}</div>
                             ))}
-                            <div>{data.destination.name}</div>
+                            <div>{data?.destination?.name}</div>
                         </div>
                     </div>
                 </div>
@@ -513,7 +513,7 @@ const DetailedPage = () => {
 
 
                     {midStops.map((midStop, index) => (
-                        <div key={index}>{midStop.stopPlace.name}</div>
+                        <div key={index}>{midStop?.stopPlace?.name}</div>
                     ))}
                 </div>
 
