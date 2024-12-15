@@ -140,7 +140,7 @@ const TripItem = ({ item }) => {
                 </div>
 
                 <div className="md:text-black text-md md:text-lg md:font-bold text-green-600">
-                    {todayDate}
+                    {"No." + item.busNumber || "Unknown"}
                 </div>
             </div>
 
