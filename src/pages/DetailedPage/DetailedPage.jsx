@@ -432,7 +432,7 @@ const DetailedPage = () => {
                             position={mapCoords}
                             icon={{
                                 url: imgBus,
-                                scaledSize: { width: 80, height: 50 }
+                                scaledSize: {width: 80, height: 50}
                             }}
                         />
                         <Marker
@@ -512,11 +512,14 @@ const DetailedPage = () => {
                     <div>Direction: {deviceLocation?.direction || 'N/A'}</div>
 
 
-                    {midStops.map((midStop, index) => (
-                        <div key={index}>{midStop?.stopPlace?.name}</div>
-                    ))}
+                    {/*{midStops.map((midStop, index) => (*/}
+                    {/*    <div key={index}>{midStop?.stopPlace?.name}</div>*/}
+                    {/*))}*/}
                 </div>
 
+            </div>
+            <div className="text-xs mx-10 my-2">Disclaimer: The routes and locations shown are estimates and may vary from actual
+                conditions.
             </div>
 
             <Footer/>
