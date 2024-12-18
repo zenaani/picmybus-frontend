@@ -235,7 +235,7 @@ const HomePage = () => {
                         <div className="font-bold text-green-600">{tripData.totalResults} results found</div>
                         {tripData.totalResults > 0 && (
                             tripData.schedules.map(item => (
-                                <TripItem key={item.tripId} item={item}/>
+                                <TripItem key={item.tripId} item={item} isDetailedPage={false}/>
                             ))
                         )}
                     </>

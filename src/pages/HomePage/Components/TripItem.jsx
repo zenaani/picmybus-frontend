@@ -82,7 +82,7 @@ import React from 'react';
 import icRightArrow from "../../../assets/ic_right_arrow.svg";
 import { useNavigate } from "react-router-dom";
 
-const TripItem = ({ item }) => {
+const TripItem = ({ item, isDetailedPage }) => {
     const navigate = useNavigate();
 
     // Navigate to Detailed Page
@@ -91,6 +91,11 @@ const TripItem = ({ item }) => {
             console.log(item);
             navigate(`/details/${item.tripId}`);
         }
+    };
+
+    // Go Back to Previous Page
+    const goBack = () => {
+        navigate(-1); // Navigates to the previous page
     };
 
     // Format Time
@@ -129,13 +134,14 @@ const TripItem = ({ item }) => {
 
                 <div className="flex-col md:text-left text-right">
                     <div className="text-sm">To</div>
-                    <div className="text-lg font-bold">{item.destination == null ? "Unknown" : item.destination.name}</div>
+                    <div
+                        className="text-lg font-bold">{item.destination == null ? "Unknown" : item.destination.name}</div>
                     <div className="text-md">ETA: {formatTime(item?.arrivalTime)}</div>
                 </div>
             </div>
 
             <div className="flex flex-row md:w-2/3 w-full justify-between px-3 md:px-0">
-            <div className="text-green-600 text-md md:text-lg font-bold">
+                <div className="text-green-600 text-md md:text-lg font-bold">
                     {item.busType.name || "Unknown"} - {item.busSubType.description || "Unknown"}
                 </div>
 
@@ -147,10 +153,14 @@ const TripItem = ({ item }) => {
             <div className="md:w-56 w-full px-2 py-4">
                 <button
                     className="flex h-8 md:h-24 md:w-full w-full gap-3 py-5 hover:bg-green-700 bg-green-800 justify-center items-center rounded-md transition-all duration-500"
-                    onClick={() => navigateToDetails(item)}
+                    onClick={isDetailedPage ? goBack : () => navigateToDetails(item)}
                 >
-                    <div className="text-white md:hidden">View</div>
-                    <img src={icRightArrow} className="w-4 h-4" alt="Arrow" />
+                    <div className="text-white md:hidden">{isDetailedPage ? "Go Back" : "View"}</div>
+                    <img
+                        src={icRightArrow}
+                        className={`w-4 h-4 transition-transform duration-500 ${isDetailedPage ? "rotate-180" : ""}`}
+                        alt="Arrow"
+                    />
                 </button>
             </div>
         </div>

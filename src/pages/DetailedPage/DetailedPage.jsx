@@ -354,7 +354,7 @@ const DetailedPage = () => {
             <BannerTopLogo/>
             <BannerGreenTop/>
             <div className="mx-10 -mt-10">
-                <TripItem item={data}/>
+                <TripItem item={data} isDetailedPage={true}/>
             </div>
 
             <div className="flex md:mx-28 mx-16 mb-8 gap-4 justify-center md:justify-start">
