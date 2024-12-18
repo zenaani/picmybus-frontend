@@ -327,7 +327,7 @@ const DetailedPage = () => {
         // Show popup after 60 seconds
         const timer = setTimeout(() => {
             setIsPopupVisible(true);
-        }, 60000);  // 10000 ms = 10 seconds
+        }, 90000);  // 10000 ms = 10 seconds
 
         // Cleanup the timer when the component unmounts or when the effect is re-run
         return () => clearTimeout(timer);

@@ -150,6 +150,7 @@ const HomePage = () => {
             default:
                 startTime = null;
                 endTime = null;
+                break;
         }
 
         setIsFetching(true);

@@ -145,8 +145,8 @@ const TripItem = ({ item, isDetailedPage }) => {
                     {item.busType.name || "Unknown"} - {item.busSubType.description || "Unknown"}
                 </div>
 
-                <div className="md:text-black text-md md:text-lg md:font-bold text-green-600">
-                    {"No." + item.busNumber || "Unknown"}
+                <div className="md:text-black text-sm md:text-lg md:font-bold text-green-600">
+                    {item.busNumber || "Unknown"}
                 </div>
             </div>
 

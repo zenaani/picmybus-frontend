@@ -12,7 +12,6 @@ export const timeFrameList =
         {
             value: '3', label: "Night (06:00 PM - 12:00 AM)",
         },
-
         {
             value: '4', label: "All Day",
         }
