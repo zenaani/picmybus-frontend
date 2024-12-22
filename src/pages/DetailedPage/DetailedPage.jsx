@@ -523,7 +523,6 @@ const DetailedPage = () => {
             </div>
 
             <Footer/>
-            <InstallNow/>
 
 
         </div>

@@ -141,7 +141,7 @@ const TripItem = ({ item, isDetailedPage }) => {
             </div>
 
             <div className="flex flex-row md:w-2/3 w-full justify-between px-3 md:px-0">
-                <div className="text-green-600 text-md md:text-lg font-bold">
+                <div className="text-green-600 text-sm md:text-lg font-bold">
                     {item.busType.name || "Unknown"} - {item.busSubType.description || "Unknown"}
                 </div>
 

@@ -18,7 +18,7 @@ import logoPicmybus from "../../assets/logo_picmybus.svg";
 import icDownload from "../../assets/ic_download.svg";
 import InstallNow from "./Components/InstallNow.jsx";
 
-const HomePage = () => {
+const HomeBackup = () => {
 
     //Handle Origin and Destination Selection
     const [origin, setOrigin] = useState(null);
@@ -252,9 +252,8 @@ const HomePage = () => {
 
 
             <Footer/>
-            <InstallNow/>
         </div>
     );
 };
 
-export default HomePage;
+export default HomeBackup;
