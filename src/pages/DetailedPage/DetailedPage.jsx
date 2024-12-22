@@ -89,6 +89,22 @@ const DetailedPage = () => {
         lng: data?.destination?.longitude || 72.8777
     })
 
+    // Reset Bus coordinates
+    const handleResetCoords = async () => {
+        const newCoords = { lat: 19.0760, lng: 72.8777 };
+
+        try {
+            await api.put(`/schedules/coordinates/${data.tripId}`, {
+                latitude: newCoords.lat,
+                longitude: newCoords.lng
+            });
+            setMapCoords(newCoords);
+
+        } catch (error) {
+            console.error("Error updating coordinates:", error);
+        }
+    };
+
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -426,39 +442,40 @@ const DetailedPage = () => {
 
                 {/* Google Map */}
                 {!(mapCoords.lat === 19.0760 && mapCoords.lng === 72.8777) ? (
-                <APIProvider
-                    apiKey={googleMapsApiKey}
-                    onLoad={() => console.log("Maps API has loaded.")}
-                >
-                    <Map defaultZoom={13} defaultCenter={mapCoords} className="w-full h-full rounded-3xl overflow-auto">
-                        <Marker
-                            position={mapCoords}
-                            icon={{
-                                url: imgBus,
-                                scaledSize: {width: 80, height: 50}
-                            }}
-                        />
-                        <Marker
-                            position={originMapCoords}
-                            label={{
-                                text: "Origin", // Label text
-                                color: "black", // Label color
-                                fontSize: "12px", // Label font size
-                                fontWeight: "bold", // Label font weight
-                            }}
-                        />
-                        <Marker
-                            position={destinationMapCoords}
-                            label={{
-                                text: "Destination", // Label text
-                                color: "black", // Label color
-                                fontSize: "12px", // Label font size
-                                fontWeight: "bold", // Label font weight
-                            }}
-                        />
-                    </Map>
-                </APIProvider>
-                    ) : (
+                    <APIProvider
+                        apiKey={googleMapsApiKey}
+                        onLoad={() => console.log("Maps API has loaded.")}
+                    >
+                        <Map defaultZoom={13} defaultCenter={mapCoords}
+                             className="w-full h-full rounded-3xl overflow-auto">
+                            <Marker
+                                position={mapCoords}
+                                icon={{
+                                    url: imgBus,
+                                    scaledSize: {width: 80, height: 50}
+                                }}
+                            />
+                            <Marker
+                                position={originMapCoords}
+                                label={{
+                                    text: "Origin", // Label text
+                                    color: "black", // Label color
+                                    fontSize: "12px", // Label font size
+                                    fontWeight: "bold", // Label font weight
+                                }}
+                            />
+                            <Marker
+                                position={destinationMapCoords}
+                                label={{
+                                    text: "Destination", // Label text
+                                    color: "black", // Label color
+                                    fontSize: "12px", // Label font size
+                                    fontWeight: "bold", // Label font weight
+                                }}
+                            />
+                        </Map>
+                    </APIProvider>
+                ) : (
                     <div className="flex items-center justify-center w-full h-full bg-blue-200 rounded-3xl">
                         <p>Live location not available for this route.</p>
                     </div>
@@ -526,9 +543,18 @@ const DetailedPage = () => {
                 </div>
 
             </div>
-            <div className="text-xs mx-10 my-2">Disclaimer: The routes and locations shown are estimates and may vary from actual
+            <div className="text-xs mx-10 my-2">Disclaimer: The routes and locations shown are estimates and may vary
+                from actual
                 conditions.
             </div>
+
+            <div className="text-xs mx-10 my-2" onClick={handleResetCoords}>
+                Do you think the live location is incorrect? Help us correct it by clicking {" "}
+                <span className="text-blue-500 underline hover:text-blue-700 cursor-pointer">
+        here
+    </span>.
+            </div>
+
 
             <Footer/>
 
