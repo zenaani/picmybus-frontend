@@ -121,7 +121,14 @@ const HomeBackup = () => {
 
 
     //Search Trips From Backend
-    const handleSearch = async () => {
+    const handleSearch = async (page = 0) => {
+
+        let currentPage = Number(page);
+        if(isNaN(currentPage)) {
+            currentPage = 0
+        }
+        console.log(currentPage);
+
 
         //Set Time Filter
         let startTime = null;
@@ -167,7 +174,7 @@ const HomeBackup = () => {
         try {
             if (origin != null && destination != null) {
 
-                let response = await api.post(`/schedules/search?page=${page}&size=${size}`, payload, {
+                let response = await api.post(`/schedules/search?page=${currentPage}&size=${size}`, payload, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -182,7 +189,7 @@ const HomeBackup = () => {
                     time,
                     busType,
                     tripData: response.data,
-                    page,
+                    currentPage,
                     size,
                     hasSearched: true,
                 }));

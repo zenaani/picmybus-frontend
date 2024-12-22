@@ -5,7 +5,7 @@ import BannerGreenTop from "../HomePage/Components/BannerTopGreen.jsx";
 import TripItem from "../HomePage/Components/TripItem.jsx";
 import {APIProvider, Marker, Map} from "@vis.gl/react-google-maps";
 import Stepper from "./Components/Stepper.jsx";
-import {Button, Modal, Steps, Switch} from "antd";
+import {Button, Modal, Spin, Steps, Switch} from "antd";
 import api from "../../services/api.js";
 import Footer from "../HomePage/Components/Footer.jsx";
 import InstallNow from "../HomePage/Components/InstallNow.jsx";
@@ -214,8 +214,8 @@ const DetailedPage = () => {
     // WebSocket connection
     useEffect(() => {
         if (loggingEnabled) {
-            // socketRef.current = new WebSocket('wss://picmybus.com/ws');
-            socketRef.current = new WebSocket('ws://localhost:8080/ws');
+            socketRef.current = new WebSocket('wss://picmybus.com/ws');
+            // socketRef.current = new WebSocket('ws://localhost:8080/ws');
             // socketRef.current = new WebSocket('ws://localhost:8080/ws');
 
             socketRef.current.onopen = () => {
@@ -352,7 +352,14 @@ const DetailedPage = () => {
     }, []);
 
 
-    if (!data) return <div>Loading...</div>;
+    //If no data, show loading screen
+    if (!data) {
+        return (
+            <div className="flex justify-center items-center h-full py-24">
+                <Spin size="large" />
+            </div>
+        );
+    }
 
     return (
         <div className="flex-col">
