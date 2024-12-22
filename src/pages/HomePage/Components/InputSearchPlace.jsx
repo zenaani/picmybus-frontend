@@ -14,7 +14,7 @@ const InputSearchPlace = ({ props, placeholder, onPlaceSelect}) => {
             const response = await api.get(`/places/search?name=${query}`);
             const formattedData = response.data.map((place) => ({
                 value: place.placeId,
-                label: place.name,
+                label: place.name.charAt(0).toUpperCase() + place.name.slice(1).toLowerCase()
             }));
             setData(formattedData);
         } catch (error) {

@@ -23,7 +23,7 @@ const BannerTopLogo = () => {
     //Navigate to Home
     const handleHomeNav = () => {
         setIsMenuVisible(false);
-        navigate('/home');
+        navigate('/');
     }
 
     //Navigate to Contact
@@ -36,10 +36,10 @@ const BannerTopLogo = () => {
         <div className="flex h-20 bg-white md:px-20 px-8 items-center justify-between">
             <img src={icHamburger} onClick={toggleMenu} className="md:hidden"/>
 
-            <img src={logoPicmybus} className="h-full py-5" onClick={handleHomeNav}/>
+            <img src={logoPicmybus} className="h-full py-5 cursor-pointer" onClick={handleHomeNav}/>
             <div className="hidden md:flex gap-8">
-                <img src={icDisplayPicture}/>
-                <img src={icHamburger} onClick={toggleMenu}/>
+                <img src={icDisplayPicture} />
+                <img src={icHamburger} onClick={toggleMenu} className="cursor-pointer"/>
             </div>
             <img src={icDisplayPicture} className="md:hidden"/>
 

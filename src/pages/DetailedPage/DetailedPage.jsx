@@ -93,28 +93,30 @@ const DetailedPage = () => {
 
     useEffect(() => {
         if (data) {
-            const totalDistance = haversineDistance(
-                originMapCoords.lat,
-                originMapCoords.lng,
-                destinationMapCoords.lat,
-                destinationMapCoords.lng
-            )
-
-            const currentDistance = haversineDistance(
-                originMapCoords.lat,
-                originMapCoords.lng,
-                mapCoords.lat,
-                mapCoords.lng
-            );
-
-            if (currentDistance > totalDistance) {
-                setProgress(100);
+            if (mapCoords.lat === 19.0760 && mapCoords.lng === 72.8777) {
+                setProgress(0); // Set progress to zero
             } else {
-                const percentageProgress = (currentDistance / totalDistance) * 100;
-                setProgress(percentageProgress);
+                const totalDistance = haversineDistance(
+                    originMapCoords.lat,
+                    originMapCoords.lng,
+                    destinationMapCoords.lat,
+                    destinationMapCoords.lng
+                )
+
+                const currentDistance = haversineDistance(
+                    originMapCoords.lat,
+                    originMapCoords.lng,
+                    mapCoords.lat,
+                    mapCoords.lng
+                );
+
+                if (currentDistance > totalDistance) {
+                    setProgress(100);
+                } else {
+                    const percentageProgress = (currentDistance / totalDistance) * 100;
+                    setProgress(percentageProgress);
+                }
             }
-
-
         }
     }, [data]);
 
@@ -196,8 +198,8 @@ const DetailedPage = () => {
     // WebSocket connection
     useEffect(() => {
         if (loggingEnabled) {
-            socketRef.current = new WebSocket('wss://picmybus.com/ws');
-            // socketRef.current = new WebSocket('ws://localhost:8080/ws');
+            // socketRef.current = new WebSocket('wss://picmybus.com/ws');
+            socketRef.current = new WebSocket('ws://localhost:8080/ws');
             // socketRef.current = new WebSocket('ws://localhost:8080/ws');
 
             socketRef.current.onopen = () => {
@@ -423,6 +425,7 @@ const DetailedPage = () => {
             <div className="flex relative h-[700px] px-10">
 
                 {/* Google Map */}
+                {!(mapCoords.lat === 19.0760 && mapCoords.lng === 72.8777) ? (
                 <APIProvider
                     apiKey={googleMapsApiKey}
                     onLoad={() => console.log("Maps API has loaded.")}
@@ -455,6 +458,11 @@ const DetailedPage = () => {
                         />
                     </Map>
                 </APIProvider>
+                    ) : (
+                    <div className="flex items-center justify-center w-full h-full bg-blue-200 rounded-3xl">
+                        <p>Live location not available for this route.</p>
+                    </div>
+                )}
 
                 {/* Stepper and its white container */}
                 <div
